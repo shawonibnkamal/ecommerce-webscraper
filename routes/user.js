@@ -4,7 +4,6 @@ const passport = require("passport");
 
 const user_controller = require("../controllers/users.js");
 
-router.post("/", user_controller.create);
 router.get("/", user_controller.all);
 router.get("/:email", user_controller.getOne);
 router.put("/:email", user_controller.updateOne);

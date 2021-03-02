@@ -2,79 +2,56 @@ const User = require("../models/user.js");
 const passport = require("passport");
 const jwt = require("jsonwebtoken");
 
-const create = async (req, res) => {
-  const new_user = new User(req.body.name, req.body.email, req.body.password);
-  if (new_user.isValid()) {
-    let db = req.db;
-    try {
-      let msg = await new_user.save(db);
-      res.send(msg);
-    } catch (err) {
-      res.send("There was an error while saving your User. (err:" + err + ")");
+const getOne = async (req, res) => {
+  User.findOne({ email: req.params.email }, function (err, user) {
+    if (err) {
+      res.send("Error occured");
       throw new Error(err);
     }
-  } else {
-    res.send("client-side: The User data you entered is invalid");
-  }
-};
-
-const getOne = async (req, res) => {
-  const user_to_get = req.params.email;
-  let db = req.db;
-  try {
-    let obj = await User.getUserByEmail(db, user_to_get);
-    res.send(obj);
-  } catch (err) {
-    res.send(
-      "There was an error while retrieving your User. (err:" + err + ")"
-    );
-    throw new Error(err);
-  }
+    res.send(user);
+  });
 };
 
 const updateOne = async (req, res) => {
-  const user_to_update = req.body;
-  const current_email = req.params.email;
-  let db = req.db;
-  try {
-    let msg = await User.update(
-      db,
-      current_email,
-      user_to_update.name,
-      user_to_update.email,
-      user_to_update.password
-    );
-    res.send(msg);
-  } catch (err) {
-    res.send("There was an error while updating your User. (err:" + err + ")");
-    throw new Error(err);
-  }
+  updated_json = {
+    $set: {
+      name: req.body.name,
+      email: req.body.email,
+      password: req.body.password,
+    },
+  };
+  User.findOneAndUpdate(
+    { email: req.params.email },
+    updated_json,
+    function (err, user) {
+      if (err) {
+        res.send("Error occured");
+        throw new Error(err);
+      }
+      res.send(user);
+    }
+  );
 };
 
 const deleteOne = async (req, res) => {
-  const user_email = req.params.email;
-  let db = req.db;
-  try {
-    let msg = await User.delete(db, user_email);
-    res.send(msg);
-  } catch (err) {
-    res.send("There was an error while deleting your User. (err:" + err + ")");
-    throw new Error(err);
-  }
+  User.remove({ email: req.params.email }, function (err) {
+    if (err) {
+      res.send({ message: "Error occured" });
+      throw new Error(err);
+    }
+
+    res.send({ message: "User deleted" });
+  });
 };
 
 const all = async (req, res) => {
-  let db = req.db;
-  try {
-    let obj = await User.getUsers(db);
-    console.log("server-side: " + obj.length + " user(s) were returned");
-    res.send(obj);
-  } catch (err) {
-    res.send(
-      "There was an error while retrieving all Users. (err:" + err + ")"
-    );
-    throw new Error(err);
-  }
+  User.find({}, function (err, users) {
+    if (err) {
+      res.send("Error occured");
+      throw new Error(err);
+    }
+    res.send({ users: users });
+  });
 };
 
 const login = async (req, res, next) => {
@@ -82,9 +59,6 @@ const login = async (req, res, next) => {
     try {
       if (err || !user) {
         return res.send({ message: "Invalid credentials" });
-        const error = new Error("An error occurred.");
-
-        return next(error);
       }
 
       req.login(user, { session: false }, async (error) => {
@@ -110,7 +84,6 @@ const signup = async (req, res, next) => {
 
 // Make all methods available for use.
 module.exports = {
-  create,
   getOne,
   updateOne,
   deleteOne,
