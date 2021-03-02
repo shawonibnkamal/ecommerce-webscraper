@@ -1,70 +1,39 @@
-const Validator = require("validatorjs");
+const mongoose = require("mongoose");
+const bcrypt = require("bcrypt");
 
-async function _get_users_collection(db) {
-  try {
-    return await db.collection("users");
-  } catch (err) {
-    throw err;
-  }
-}
+const Schema = mongoose.Schema;
 
-class User {
-  constructor(name, password) {
-    this.name = name;
-    this.password = password;
-  }
+const UserSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+});
 
-  isValid() {
-    const rules = {
-      name: "required|string",
-      password: "required|string",
-    };
-    const validation = new Validator(this, rules);
-    return validation.passes();
-  }
+UserSchema.pre("save", async function (next) {
+  const user = this;
+  const hash = await bcrypt.hash(this.password, 10);
 
-  async save(db) {
-    var user = this;
-    return new Promise(async function (resolve, reject) {
-      /**
-       * Write your code here
-       */
-    });
-  }
+  this.password = hash;
+  next();
+});
 
-  static async update(db, id, name, authors, year, publisher) {
-    return new Promise(async function (resolve, reject) {
-      /**
-       * Write your code here
-       */
-    });
-  }
+UserSchema.methods.isValidPassword = async function (password) {
+  const user = this;
+  const compare = await bcrypt.compare(password, user.password);
 
-  static async delete(db, id) {
-    var id_delete = id;
-    return new Promise(async function (resolve, reject) {
-      /**
-       * Write your code here
-       */
-    });
-  }
+  return compare;
+};
 
-  static async getUserById(db, id) {
-    var id_get = id;
-    return new Promise(async function (resolve, reject) {
-      /**
-       * Write your code here
-       */
-    });
-  }
+const UserModel = mongoose.model("user", UserSchema);
 
-  static async getUsers(db) {
-    return new Promise(async function (resolve, reject) {
-      /**
-       * Write your code here
-       */
-    });
-  }
-}
-
-module.exports = User;
+module.exports = UserModel;

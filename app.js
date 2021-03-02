@@ -4,6 +4,15 @@ const bodyParser = require("body-parser");
 const user_router = require("./routes/user");
 const product_router = require("./routes/product");
 const mongo = require("./utils/db");
+const mongoose = require("mongoose");
+
+const UserModel = require("./models/user");
+
+mongoose.connect("mongodb://127.0.0.1:27017/web-scraper", {});
+mongoose.connection.on("error", (error) => console.log(error));
+mongoose.Promise = global.Promise;
+
+require("./auth/auth");
 
 // This method runs once and connects to the mongoDB
 var db;

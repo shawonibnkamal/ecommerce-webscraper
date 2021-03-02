@@ -1,13 +1,9 @@
 const User = require("../models/user.js");
+const passport = require("passport");
+const jwt = require("jsonwebtoken");
 
 const create = async (req, res) => {
-  const new_user = new User(
-    parseInt(req.body.id),
-    req.body.name,
-    req.body.authors,
-    parseInt(req.body.year),
-    req.body.publisher
-  );
+  const new_user = new User(req.body.name, req.body.email, req.body.password);
   if (new_user.isValid()) {
     let db = req.db;
     try {
@@ -23,10 +19,10 @@ const create = async (req, res) => {
 };
 
 const getOne = async (req, res) => {
-  const user_to_get = req.params.id;
+  const user_to_get = req.params.email;
   let db = req.db;
   try {
-    let obj = await User.getUserById(db, user_to_get);
+    let obj = await User.getUserByEmail(db, user_to_get);
     res.send(obj);
   } catch (err) {
     res.send(
@@ -38,16 +34,15 @@ const getOne = async (req, res) => {
 
 const updateOne = async (req, res) => {
   const user_to_update = req.body;
-  const user_id = req.params.id;
+  const current_email = req.params.email;
   let db = req.db;
   try {
     let msg = await User.update(
       db,
-      user_id,
+      current_email,
       user_to_update.name,
-      user_to_update.authors,
-      user_to_update.year,
-      user_to_update.publisher
+      user_to_update.email,
+      user_to_update.password
     );
     res.send(msg);
   } catch (err) {
@@ -57,10 +52,10 @@ const updateOne = async (req, res) => {
 };
 
 const deleteOne = async (req, res) => {
-  const user_id = req.params.id;
+  const user_email = req.params.email;
   let db = req.db;
   try {
-    let msg = await User.delete(db, user_id);
+    let msg = await User.delete(db, user_email);
     res.send(msg);
   } catch (err) {
     res.send("There was an error while deleting your User. (err:" + err + ")");
@@ -82,6 +77,37 @@ const all = async (req, res) => {
   }
 };
 
+const login = async (req, res, next) => {
+  passport.authenticate("login", async (err, user, info) => {
+    try {
+      if (err || !user) {
+        return res.send({ message: "Invalid credentials" });
+        const error = new Error("An error occurred.");
+
+        return next(error);
+      }
+
+      req.login(user, { session: false }, async (error) => {
+        if (error) return next(error);
+
+        const body = { _id: user._id, email: user.email };
+        const token = jwt.sign({ user: body }, "TOP_SECRET");
+
+        return res.json({ token });
+      });
+    } catch (error) {
+      return next(error);
+    }
+  })(req, res, next);
+};
+
+const signup = async (req, res, next) => {
+  res.json({
+    message: "Signup successful",
+    user: req.user,
+  });
+};
+
 // Make all methods available for use.
 module.exports = {
   create,
@@ -89,4 +115,6 @@ module.exports = {
   updateOne,
   deleteOne,
   all,
+  login,
+  signup,
 };
