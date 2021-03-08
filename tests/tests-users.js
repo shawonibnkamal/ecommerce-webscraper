@@ -110,12 +110,25 @@ describe('Webscrapper Tests with Mocha', function(){
                     email: 'user1@gmail.com', 
                     password: 'pass123'
                 }
-                request.post({
+                request.get({
                     headers: {'content-type': 'application/json'},
                     url:     myurl+'/login',
                     body:    JSON.stringify(data)        
                 }, function(error, response, body){
                     assert.strictEqual(body, 'User logged in successfully.');
+                });
+            });
+            it('Success 3. Post - Add Valid User - Signup', function(){
+                let data = {
+                    email: 'user1@gmail.com', 
+                    password: 'pass123'
+                }
+                request.post({
+                    headers: {'content-type': 'application/json'},
+                    url:     myurl+'/signup',
+                    body:    JSON.stringify(data)        
+                }, function(error, response, body){
+                    assert.strictEqual(body, 'User added - Signup successfull.');
                 });
             });
         
