@@ -12,47 +12,73 @@ async function scrapeData(url, page) {
     const html = await page.evaluate(() => document.body.innerHTML);
     const $ = await cheerio.load(html);
 
-    let title = $("h1").text();
-    let price = $(".price-characteristic").attr("content");
+    let website;
 
-    if (!price) {
-      let dollars = $(
-        "#price > div > span.hide-content.display-inline-block-m > span > span.price-group.price-out-of-stock > span.price-characteristic"
-      ).text();
-      let cents = $(
-        "#price > div > span.hide-content.display-inline-block-m > span > span.price-group.price-out-of-stock > span.price-mantissa"
-      ).text();
-      price = dollars + "." + cents;
-    }
-
-    let seller = "";
-    let checkSeller = $(".seller-name");
-    if (checkSeller) {
-      seller = checkSeller.text();
-    }
-
-    let outOfStock = "";
-    let checkOutOfStock = $(".prod-ProductOffer-oosMsg");
-    if (checkOutOfStock) {
-      outOfStock = checkOutOfStock.text();
-    }
-
-    let deliveryNotAvaiable = "";
-    let checkDeliveryNotAvailable = $(".fulfillment-shipping-text");
-    if (checkDeliveryNotAvailable) {
-      deliveryNotAvaiable = checkDeliveryNotAvailable.text();
-    }
-
-    let stock = "";
-
-    if (
-      !seller.includes("Walmart") ||
-      outOfStock.includes("Out of Stock") ||
-      deliveryNotAvaiable.includes("Delivery not available")
-    ) {
-      stock = "Out of stock";
+    if (url.includes("bestbuy.ca")) {
+      website = "bestbuy";
+    } else if (url.includes("amazon.ca")) {
+      website = "amazon";
     } else {
-      stock = "In stock";
+      website = undefined;
+    }
+
+    // get title of product
+    let title = $("h1");
+    if (title) {
+      title = title.text().replace(/\n/g, "");
+    } else {
+      title = "";
+    }
+
+    // get price of product
+    let price = "";
+    if (website == "bestbuy") {
+      price = $(".price_FHDfG");
+      if (price) {
+        price = price.text();
+        price = price.substr(0, price.length - 2) + "." + price.substr(-2);
+      } else {
+        price = "";
+      }
+    } else if (website == "amazon") {
+      price = $("#price_inside_buybox");
+      if (price) {
+        price = price.text().replace(/\n/g, "");
+      }
+    }
+
+    // get inventory status
+    let stock = "";
+    if (website == "bestbuy") {
+      let checkStock = $(".addToCartButton");
+      if (checkStock) {
+        checkStock = checkStock.attr("disabled");
+
+        if (checkStock == null) {
+          stock = "In stock";
+        } else {
+          stock = "Out of stock";
+        }
+      }
+    } else if (website == "amazon") {
+      let checkStock = $("#outOfStock");
+      if (checkStock) {
+        if (checkStock.text().includes("Currently unavailable")) {
+          stock = "Out of stock";
+        } else {
+          stock = "In stock";
+        }
+      } else {
+        stock = "In stock";
+      }
+    }
+
+    // get sku
+    let sku = $(".modelInformation_1ZG9l:nth-child(2)");
+    if (sku) {
+      sku = sku.text().replace("Web Code: ", "");
+    } else {
+      sku = "";
     }
 
     return {
@@ -60,6 +86,7 @@ async function scrapeData(url, page) {
       price,
       stock,
       url,
+      sku,
     };
   } catch (error) {
     console.log(error);
@@ -157,9 +184,10 @@ const fetchData = async (req, res) => {
 
       let productData = {
         title: result.title,
-        price: "$" + result.price,
+        price: result.price,
         stock: result.stock,
         productUrl: result.url,
+        sku: result.sku,
       };
       res.send({ productData: productData });
       browser.close();

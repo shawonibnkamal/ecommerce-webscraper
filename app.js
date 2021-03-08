@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const user_router = require("./routes/user");
 const product_router = require("./routes/product");
 const mongoose = require("mongoose");
+const passport = require("passport");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
@@ -30,6 +31,16 @@ app.use(
 
 app.use("/users", user_router);
 app.use("/products", product_router);
+
+// for testing secure routes
+// pass token in query params as secret_token=<token>
+app.get(
+  "/secureroute",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    res.json(req.user);
+  }
+);
 
 server = app.listen(port, () => {
   console.log("Example app listening at http://localhost:%d", port);
