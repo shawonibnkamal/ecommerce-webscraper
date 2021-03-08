@@ -44,6 +44,17 @@ async function scrapeData(url, page) {
       price = $("#price_inside_buybox");
       if (price) {
         price = price.text().replace(/\n/g, "");
+      } else {
+        price = "";
+      }
+
+      if (price == undefined || price == "") {
+        price = $("#priceblock_ourprice");
+        if (price) {
+          price = price.text();
+        } else {
+          price = "";
+        }
       }
     }
 
@@ -93,6 +104,7 @@ async function scrapeData(url, page) {
   }
 }
 
+// Search a product using SKU
 const search = (req, res) => {
   let userSku = req.query.sku;
   if (userSku) {
@@ -112,6 +124,7 @@ const search = (req, res) => {
   }
 };
 
+// Get products that are in stock
 const getInStock = (req, res) => {
   Product.find({ newstock: "In stock" })
     .then((products) => {
@@ -122,6 +135,7 @@ const getInStock = (req, res) => {
     });
 };
 
+// Get products that are out of stock
 const getOutOfStock = (req, res) => {
   Product.find({ newstock: "Out of stock" })
     .then((products) => {
@@ -132,6 +146,7 @@ const getOutOfStock = (req, res) => {
     });
 };
 
+// Get products that had a price change since last time
 const getPriceChanged = (req, res) => {
   Product.find({})
     .then((products) => {
@@ -142,6 +157,7 @@ const getPriceChanged = (req, res) => {
     });
 };
 
+// Get products that came back in stock
 const getBackInStock = (req, res) => {
   Product.find({
     $and: [{ oldstock: "Out of stock" }, { newstock: "In stock" }],
@@ -154,6 +170,7 @@ const getBackInStock = (req, res) => {
     });
 };
 
+// Get products that got updated
 const getUpdated = (req, res) => {
   Product.find({ updatestatus: "Updated" })
     .then((products) => {
@@ -164,6 +181,7 @@ const getUpdated = (req, res) => {
     });
 };
 
+// Get products that are not updated
 const getNotUpdated = (req, res) => {
   Product.find({ updatestatus: "Not Updated" })
     .then((products) => {
@@ -174,6 +192,7 @@ const getNotUpdated = (req, res) => {
     });
 };
 
+// Get request to Scrape Data from url
 const fetchData = async (req, res) => {
   try {
     let url = req.query.search;
@@ -207,6 +226,7 @@ const fetchData = async (req, res) => {
 
 // Post request
 
+// Add a new product
 const postNewProduct = (req, res) => {
   let { title, price, stock, url, sku } = req.body;
 
@@ -237,6 +257,7 @@ const postNewProduct = (req, res) => {
     });
 };
 
+// Update all products
 const postUpdateProduct = async (req, res) => {
   try {
     res.send({ message: "Products are updating." });
@@ -282,8 +303,14 @@ const postUpdateProduct = async (req, res) => {
   }
 };
 
+// Delete a product
 const deleteProduct = (req, res) => {
-  let searchQuery = { _id: req.params.id };
+  let searchQuery = { sku: req.params.sku };
+
+  if (req.params.sku == undefined) {
+    res.send({ message: "There was an error." });
+    return;
+  }
 
   Product.deleteOne(searchQuery)
     .then((product) => {

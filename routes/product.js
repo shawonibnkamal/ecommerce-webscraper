@@ -32,6 +32,6 @@ router.post("/new", product_controller.postNewProduct);
 router.post("/update", product_controller.postUpdateProduct);
 
 //DELETE routes starts here
-router.delete("/delete/:id", product_controller.deleteProduct);
+router.delete("/delete/:sku", product_controller.deleteProduct);
 
 module.exports = router;
