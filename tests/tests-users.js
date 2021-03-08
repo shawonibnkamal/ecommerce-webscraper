@@ -81,7 +81,7 @@ describe('Webscrapper Tests with Mocha', function(){
                     headers: {'content-type': 'application/json'},
                     url:     myurl+'/'+email,                    
                 }, function(error, response, body){
-                    assert.strictEqual(body,'Error. user not found.');                    
+                    assert.strictEqual(body,'Error. Email is invalid.');                    
                 });
             });
             it('Fail 7. DELETE - Test invalid email (failed deleteOne)', function(){
