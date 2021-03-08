@@ -111,7 +111,7 @@ const search = (req, res) => {
     Product.findOne({ sku: userSku })
       .then((product) => {
         if (!product) {
-          res.send("Product not found!");
+          res.send({ message: "Product not found!" });
         }
 
         res.send({ productData: product });
@@ -308,7 +308,7 @@ const deleteProduct = (req, res) => {
   let searchQuery = { sku: req.params.sku };
 
   if (req.params.sku == undefined) {
-    res.send({ message: "There was an error." });
+    res.send({ message: "Error deleting product" });
     return;
   }
 
