@@ -4,7 +4,7 @@ const passport = require("passport");
 
 const user_controller = require("../controllers/users.js");
 
-router.get("/", user_controller.all);
+router.get("/users", user_controller.all);
 router.get("/:email", user_controller.getOne);
 router.put("/:email", user_controller.updateOne);
 router.delete("/:email", user_controller.deleteOne);

@@ -99,7 +99,7 @@ describe('Webscrapper Tests with Mocha', function(){
             it('Success 1. GET - All User', function(){
                 request.get({
                     headers: {'content-type': 'application/json'},
-                    url:     myurl+'/',
+                    url:     myurl+'/users',
                 }, function(error, response, body){
                     console.log('-------- Listing all Users. --------');
                     console.log(body);
