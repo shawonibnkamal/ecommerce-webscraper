@@ -93,6 +93,31 @@ describe('Webscrapper Tests with Mocha', function(){
                     assert.strictEqual(body,'Error. user not found.');                    
                 });
             });
+            
+
+            
+            it('Success 1. GET - All User', function(){
+                request.get({
+                    headers: {'content-type': 'application/json'},
+                    url:     myurl+'/',
+                }, function(error, response, body){
+                    console.log('-------- Listing all Users. --------');
+                    console.log(body);
+                });
+            });
+            it('Success 2. GET - Valid User - LogIn', function(){
+                let data = {
+                    email: 'user1@gmail.com', 
+                    password: 'pass123'
+                }
+                request.post({
+                    headers: {'content-type': 'application/json'},
+                    url:     myurl+'/login',
+                    body:    JSON.stringify(data)        
+                }, function(error, response, body){
+                    assert.strictEqual(body, 'User logged in successfully.');
+                });
+            });
         
         
         });        
