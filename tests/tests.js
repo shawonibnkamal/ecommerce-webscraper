@@ -26,6 +26,30 @@ describe('Webscrapper Tests with Mocha', function(){
                 assert.strictEqual(await c2.isValid(), false);
             });
         });
+
+        
+
+        describe('Test API calls', function(){
+            describe('Contacts', async function(){
+                var myurl = 'http://localhost:3000';           
+                it('Fail 1. POST - Test invalid emial - failed signup', function(){
+                    let data = {
+                        email: 'user1#gmail@com', 
+                        password: 'pass123'
+                    }
+                    request.post({
+                            headers: {'content-type': 'application/json'},
+                            url:     myurl+'/signup',
+                            body:    JSON.stringify(data)        
+                    }, function(error, response, body){
+                        assert.strictEqual(body, 'Error. Signup Failed.');
+                    });
+                });
+                
+
+          
+            });        
+        });
     });
 
     
