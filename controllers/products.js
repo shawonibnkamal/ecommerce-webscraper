@@ -12,7 +12,7 @@ async function scrapeData(url, page) {
     const html = await page.evaluate(() => document.body.innerHTML);
     const $ = await cheerio.load(html);
 
-    let title = $("h1").attr("content");
+    let title = $("h1").text();
     let price = $(".price-characteristic").attr("content");
 
     if (!price) {
