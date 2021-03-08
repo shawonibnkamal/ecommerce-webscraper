@@ -226,11 +226,11 @@ const postNewProduct = (req, res) => {
     .then((product) => {
       if (product) {
         res.send({ message: "Product already exist in the database." });
+      } else {
+        Product.create(newProduct).then((product) => {
+          res.send({ message: "Product added successfully in the database." });
+        });
       }
-
-      Product.create(newProduct).then((product) => {
-        res.send({ message: "Product added successfully in the database." });
-      });
     })
     .catch((err) => {
       res.send({ message: "There was an error " + err });
