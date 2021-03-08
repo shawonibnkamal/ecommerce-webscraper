@@ -20,7 +20,9 @@
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
     "request": "^2.88.2",
-    "validatorjs": "^3.22.1"
+    "validatorjs": "^3.22.1",
+    "cheerio": "^1.0.0-rc.3",
+    "puppeteer": "^2.1.0"
   },
   "devDependencies": {
     "mocha": "^8.3.0"
