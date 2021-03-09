@@ -55,7 +55,7 @@ describe('Webscrapper Tests with Mocha', function(){
             it('Fail 4. POST - Test invalid password - failed login', function(){
                 let data = {
                     email: 'user1@gmail.com', 
-                    password: 'pass123_#'
+                    password: 'pass123_#',
                 }
                 request.post({
                         headers: {'content-type': 'application/json'},
@@ -152,7 +152,30 @@ describe('Webscrapper Tests with Mocha', function(){
                 });
 
             });
-        
+            it('Success 5. PUT - Valid User,', function(){
+                let data = {
+                    email: 'user1@gmail.com', 
+                    password: "pass123",
+                };
+                let up_data = {
+                    email: 'user2@gmail.com', 
+                    password: "pass456",
+                };
+
+                request.post({
+                    headers: {'content-type': 'application/json'},
+                    url:     myurl+'/',
+                    body:    JSON.stringify(data)        
+                }, function(error, response, body){
+                    request.put({
+                        headers: {'content-type': 'application/json'},
+                        url:     myurl+'/'+email,
+                        body:    JSON.stringify(up_data)
+                    }, function(error, response, body){
+                        assert.strictEqual(body,'user correctly updated.');
+                    });
+                });
+            });
         
         });        
     });
