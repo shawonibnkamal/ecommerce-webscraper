@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const cheerio = require("cheerio");
 
 const product_controller = require("../controllers/products");
 
 //requiring product model
 const product = require("../models/product");
-
-let browser;
 
 //GET routes starts here
 router.get("/search", product_controller.search);
