@@ -34,6 +34,7 @@ app.use("/products", product_router);
 
 // for testing secure routes
 // pass token in query params as secret_token=<token>
+// for testing, we are keep the products route unsecure
 app.get(
   "/secureroute",
   passport.authenticate("jwt", { session: false }),
