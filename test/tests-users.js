@@ -1,12 +1,6 @@
 var assert = require("assert");
 const request = require("request");
-//const { login } = require('../controllers/users.js');
-//const { getOne } = require('../controllers/users.js');
-// const { webscrapper } = require('../models/product.js');
 
-//const {User} = require("../models/user.js");
-//const request = require('request');
-//const { mongoose } = require('mongoose');
 
 describe("Webscrapper Tests with Mocha", function () {
   describe("Test users", function () {
@@ -184,6 +178,31 @@ describe("Webscrapper Tests with Mocha", function () {
           }
         );
       });
+      it('Success 6. PUT - Valid User(update user),', function(){
+        let data = {
+            email: 'user1@gmail.com', 
+            password: "pass123",
+        };
+        let up_data = {
+            email: 'user2@gmail.com', 
+            password: "pass456",
+        };
+
+        request.post({
+            headers: {'content-type': 'application/json'},
+            url:     myurl+'/',
+            body:    JSON.stringify(data)        
+        }, function(error, response, body){
+            request.put({
+                headers: {'content-type': 'application/json'},
+                url:     myurl+'/'+email,
+                body:    JSON.stringify(up_data)
+            }, function(error, response, body){
+                assert.strictEqual(body,'user correctly updated.');
+            });
+        });
+    });
+
     });
   });
 });
