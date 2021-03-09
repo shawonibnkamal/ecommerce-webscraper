@@ -128,8 +128,29 @@ describe('Webscrapper Tests with Mocha', function(){
                     url:     myurl+'/signup',
                     body:    JSON.stringify(data)        
                 }, function(error, response, body){
-                    assert.strictEqual(body, 'User added - Signup successfull.');
+                    assert.strictEqual(body, 'User added - Signup successful.');
                 });
+            });
+            it('Success 4. GET - User found (valid getOne)', function(){
+                let email: 'user1@gmail.com'; 
+                
+                request.get({
+                        headers: {'content-type': 'application/json'},
+                        url:     myurl+'/'+email,                   
+                }, function(error, response, body){
+                    assert.strictEqual(body, 'User found.');
+                });
+            });
+            it('Success 5. DELETE - Valid User,', function(){
+                let email: 'user1@gmail.com';
+                
+                request.delete({
+                    headers: {'content-type': 'application/json'},
+                    url:     myurl+'/'+email,
+                }, function(error, response, body){
+                    assert.strictEqual(body, 'Contact deleted.');
+                });
+
             });
         
         
