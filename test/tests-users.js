@@ -165,7 +165,7 @@ describe("Webscrapper Tests with Mocha", function () {
           }
         );
       });
-      it("Success 5. DELETE - Valid User,", function () {
+      it("Success 5. DELETE - Valid User (deleteOne),", function () {
         let email = "user1@gmail.com";
 
         request.delete(
@@ -178,7 +178,7 @@ describe("Webscrapper Tests with Mocha", function () {
           }
         );
       });
-      it('Success 6. PUT - Valid User(update user),', function(){
+      it('Success 6. PUT - Update Valid User(updateOne),', function(){
         let data = {
             email: 'user1@gmail.com', 
             password: "pass123",
