@@ -7,6 +7,8 @@ const product_controller = require("../controllers/products");
 const product = require("../models/product");
 
 //GET routes starts here
+router.get("/all", product_controller.getAll);
+
 router.get("/search", product_controller.search);
 
 router.get("/instock", product_controller.getInStock);

@@ -1,0 +1,13 @@
+h1 {
+  font-size: 30px;
+  margin-top: 40px;
+  margin-bottom: 30px;
+}
+
+del {
+  color: #ccc;
+}
+
+#sync-icon {
+  animation: rotation 2s infinite linear;
+}

@@ -170,6 +170,17 @@ const getBackInStock = (req, res) => {
     });
 };
 
+// Get all products
+const getAll = (req, res) => {
+  Product.find()
+    .then((products) => {
+      res.send({ products: products });
+    })
+    .catch((err) => {
+      res.send({ message: "There was an error " + err });
+    });
+};
+
 // Get products that got updated
 const getUpdated = (req, res) => {
   Product.find({ updatestatus: "Updated" })
@@ -323,6 +334,7 @@ const deleteProduct = (req, res) => {
 
 module.exports = {
   search,
+  getAll,
   getInStock,
   getOutOfStock,
   getPriceChanged,
