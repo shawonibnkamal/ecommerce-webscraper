@@ -83,7 +83,7 @@ const signup = async (req, res, next) => {
 };
 
 const getAuthenticatedUser = (req, res, next) => {
-  console.log(req.user);
+  // console.log(req.user);
 
   User.findOne({ email: req.user.email }, function (err, user) {
     if (err) {
