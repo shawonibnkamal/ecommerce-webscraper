@@ -40,9 +40,34 @@ function updateProducts() {
 }
 
 // Delete a product
-function deleteProductHandler(e, id) {
+function deleteProductHandler(e, sku) {
   e.preventDefault();
-  console.log(id);
+
+  // delete request
+  $.ajax({
+    type: "delete",
+    url: "/products/delete/" + sku,
+    dataType: "json",
+    success: function (response) {
+      console.log(response);
+
+      // Show success message
+      $(".success").text("Product succesfully deleted");
+      $(".error").text("");
+
+      // Reload page
+      location.reload();
+    },
+    error: function (error) {
+      // print error message to console
+      console.log("An error has occured");
+      console.error(error.responseText);
+
+      // Show error message in dom
+      $(".error").text("An error has occurerd");
+      $(".success").text("");
+    },
+  });
 }
 
 // Get Requests =============================
@@ -72,7 +97,23 @@ function getBackInStock() {
   getProducts("/products/backinstock");
 }
 
-// get products functions
+// Get all product that are updated recently
+function getUpdated() {
+  getProducts("/products/updated");
+}
+
+// Get all product that are not updated
+function getNotUpdated() {
+  getProducts("/products/notupdated");
+}
+
+function searchBySKU(e) {
+  e.preventDefault();
+  let sku = $("#search-sku").val();
+  getProducts("/products/search?sku=" + sku);
+}
+
+// get products helper functions to avoid duplicates
 function getProducts(url, showPriceChange = false) {
   // get request
   $.ajax({
@@ -98,7 +139,7 @@ function getProducts(url, showPriceChange = false) {
 
         html += `<td>${products[i].newstock}</td>
                 <td><a href="${products[i].url}">Visit URL</a></td>
-                <td><a href="#" onclick="deleteProductHandler(event, '${products[i]._id}')" class="btn btn-danger btn-sm">Delete</a></td>
+                <td><a href="#" onclick="deleteProductHandler(event, '${products[i].sku}')" class="btn btn-danger btn-sm">Delete</a></td>
             </tr>
             `;
       }
@@ -116,7 +157,7 @@ function getProducts(url, showPriceChange = false) {
       console.error(error.responseText);
 
       // Show error message in DOM
-      $(".error").html("An error has occured");
+      $(".error").html("An error has occured." + error.responseText);
       $(".success").html("");
     },
   });
@@ -177,7 +218,7 @@ function getCountDashboard() {
       console.log(response);
       let counts = response.counts;
 
-      // Place the html to DOM
+      // Place the numbers to DOM
       $("#total-count").html(counts.total);
       $("#instock-count").html(counts.instock);
       $("#outofstock-count").html(counts.outofstock);

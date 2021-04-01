@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <%- include('./partials/head') -%>
 <body id="login-body">
-
+<!-- Login page start -->
 <div class="login-box">
     <h1>WebScrapper</h1>
   <div class="login-box-head">Login</div>
   <div class="login-box-body">
+      <!-- Login form start -->
     <form onsubmit="login(event)">
+      <!-- Input field: email -->
       <div class="form-group">
         <input
           type="text"
@@ -15,6 +17,7 @@
           placeholder="Email Address"
         />
       </div>
+      <!-- Input field password -->
       <div class="form-group">
         <input
           type="password"
@@ -23,11 +26,13 @@
           placeholder="Password"
         />
       </div>
+      <!-- Submit button -->
       <div class="form-group">
         <button type="submit" class="btn btn-primary w-100">Login</button>
       </div>
       <div class="error text-danger"></div>
     </form>
+    <!-- End of form -->
   </div>
   
 </div>

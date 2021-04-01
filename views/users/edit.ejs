@@ -1,0 +1,41 @@
+<%- include('../partials/header') -%>
+
+<div class="container">
+  <!-- Title -->
+
+  <h1>Edit User</h1>
+  <div id="edit-user-container">
+    <!-- Form start for editing user -->
+    <form onsubmit="putUpdateUser(event)">
+      <!-- Field: name -->
+      <div class="form-group">
+        <label for="">Name</label>
+        <input type="text" class="form-control" name="name" required />
+      </div>
+      <!-- Field: email -->
+      <div class="form-group">
+        <label for="">Email</label>
+        <input type="text" class="form-control" name="email" required />
+      </div>
+      <!-- Field: password -->
+      <div class="form-group">
+        <label for="">Password</label>
+        <input type="password" class="form-control" name="password" required />
+      </div>
+      <!-- Submit button -->
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Update User</button>
+      </div>
+    </form>
+    <!-- End of form -->
+
+    <!-- Success and error messages -->
+    <div class="success text-success"></div>
+    <div class="error text-danger"></div>
+  </div>
+
+  <script>
+    getEditUser(); // get user information to fill up the forms
+  </script>
+  <%- include('../partials/footer') -%>
+</div>

@@ -2,11 +2,14 @@
 
 <div class="container">
   <h1>Add Product</h1>
+
+  <!-- Form start for fetching data-->
   <form
     class="form-inline my-2 my-lg-0"
     onsubmit="fetchData(event)"
     id="fetch-data"
   >
+    <!-- Input field for product url -->
     <input
       type="text"
       class="form-control mr-sm-2 w-75"
@@ -14,15 +17,21 @@
       id="fetch-url"
       placeholder="Enter Product URL"
     />
+
+    <!-- Submit button for fetching data -->
     <button class="btn btn-primary" type="submit">
       <i class="fas fa-sync" id="sync-icon"></i> Fetch Data
     </button>
     <div class="success text-success"></div>
     <div class="error text-danger"></div>
   </form>
+  <small>Compatible websites: Amazon.ca, BestBuy.ca</small>
+  <!-- Form end for fetching data -->
 
   <div id="save-product-container">
+    <!-- Second form: Save product to the database -->
     <form id="save-product" onsubmit="postAddProduct(event)">
+      <!-- Field: Product url -->
       <div class="form-group">
         <label>Product URL</label>
         <input
@@ -32,6 +41,7 @@
           name="url"
         />
       </div>
+      <!-- Title -->
       <div class="form-group">
         <label>Title</label>
         <input
@@ -41,6 +51,7 @@
           name="title"
         />
       </div>
+      <!-- Price -->
       <div class="form-group">
         <label>Price</label>
         <input
@@ -50,6 +61,7 @@
           name="price"
         />
       </div>
+      <!-- Stock -->
       <div class="form-group">
         <label>Stock</label>
         <input
@@ -59,6 +71,7 @@
           name="stock"
         />
       </div>
+      <!-- SKU -->
       <div class="form-group">
         <label>Product SKU</label>
         <input
@@ -69,12 +82,15 @@
           required
         />
       </div>
+      <!-- Submit button -->
       <div class="form-group">
         <button class="btn btn-primary" type="submit">Save Product</button>
       </div>
+      <!-- Messages container -->
       <div class="success text-success"></div>
       <div class="error text-error"></div>
     </form>
+    <!-- Second form end -->
   </div>
 </div>
 

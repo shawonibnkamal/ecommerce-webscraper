@@ -6,7 +6,6 @@ const user_router = require("./routes/user");
 const product_router = require("./routes/product");
 const dashboard_router = require("./routes/dashboard");
 const mongoose = require("mongoose");
-const passport = require("passport");
 
 mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);

@@ -18,6 +18,8 @@
 <!-- Products navbar using bootstrap -->
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+    <!-- Collapse button during mobile view -->
     <button
       class="navbar-toggler"
       type="button"
@@ -54,15 +56,26 @@
             >Back in stock</a
           >
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard/products/updated"
+            >Updated</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/dashboard/products/notupdated"
+            >Not Updated</a
+          >
+        </li>
       </ul>
 
       <!-- Search form -->
-      <form class="form-inline my-2 my-lg-0">
+      <form class="form-inline my-2 my-lg-0" onsubmit="searchBySKU(event);">
         <input
           class="form-control mr-sm-2"
           type="search"
-          placeholder="Search"
+          placeholder="Search by SKU"
           aria-label="Search"
+          id="search-sku"
         />
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
           Search
@@ -76,6 +89,8 @@
   <!-- List of Products shown -->
 
   <div class="table-contianer">
+
+    <!-- Table for products list start -->
     <table class="table" id="list-products">
       <thead>
         <tr>

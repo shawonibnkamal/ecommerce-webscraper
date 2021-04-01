@@ -27,6 +27,15 @@ router.get("/products/backinstock", function (req, res) {
   res.render("./products/backinstock");
 });
 
+router.get("/products/updated", function (req, res) {
+  res.render("./products/updated");
+});
+
+router.get("/products/notupdated", function (req, res) {
+  res.render("./products/notupdated");
+});
+
+// route to add new product
 router.get("/products/add", function (req, res) {
   res.render("./products/add");
 });
@@ -34,6 +43,14 @@ router.get("/products/add", function (req, res) {
 // Routes for users
 router.get("/users/", function (req, res) {
   res.render("./users/all");
+});
+
+router.get("/users/add", function (req, res) {
+  res.render("./users/add");
+});
+
+router.get("/users/edit", function (req, res) {
+  res.render("./users/edit");
 });
 
 module.exports = router;

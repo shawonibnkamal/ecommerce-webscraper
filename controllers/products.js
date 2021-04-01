@@ -111,16 +111,16 @@ const search = (req, res) => {
     Product.findOne({ sku: userSku })
       .then((product) => {
         if (!product) {
-          res.send({ message: "Product not found!" });
+          res.status(400).send({ message: "Product not found!" });
         }
 
-        res.send({ productData: product });
+        res.send({ products: [product] });
       })
       .catch((err) => {
         res.send({ message: "There was an error" });
       });
   } else {
-    res.send({ productData: {} });
+    res.send({ products: {} });
   }
 };
 

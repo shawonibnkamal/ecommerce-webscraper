@@ -4,6 +4,7 @@ const UserModel = require("../models/user");
 const JWTstrategy = require("passport-jwt").Strategy;
 const ExtractJWT = require("passport-jwt").ExtractJwt;
 
+// signup passport
 passport.use(
   "signup",
   new localStrategy(
@@ -28,6 +29,7 @@ passport.use(
   )
 );
 
+// login using passport framework
 passport.use(
   "login",
   new localStrategy(
@@ -57,6 +59,7 @@ passport.use(
   )
 );
 
+// passport token handler
 passport.use(
   new JWTstrategy(
     {
@@ -72,3 +75,19 @@ passport.use(
     }
   )
 );
+
+// Create a usermodel if none is present
+UserModel.find({}, function (err, users) {
+  if (err) {
+    throw new Error(err);
+  }
+
+  if (users.length == 0) {
+    const user = UserModel.create({
+      email: "admin@test.com",
+      password: "admin",
+      name: "Admin",
+    });
+    console.log("Login using email: admin@test.com and pass: admin");
+  }
+});
