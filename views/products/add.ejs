@@ -1,0 +1,81 @@
+<%- include('../partials/header') -%>
+
+<div class="container">
+  <h1>Add Product</h1>
+  <form
+    class="form-inline my-2 my-lg-0"
+    onsubmit="fetchData(event)"
+    id="fetch-data"
+  >
+    <input
+      type="text"
+      class="form-control mr-sm-2 w-75"
+      name="search"
+      id="fetch-url"
+      placeholder="Enter Product URL"
+    />
+    <button class="btn btn-primary" type="submit">
+      <i class="fas fa-sync" id="sync-icon"></i> Fetch Data
+    </button>
+    <div class="success text-success"></div>
+    <div class="error text-danger"></div>
+  </form>
+
+  <div id="save-product-container">
+    <form id="save-product" onsubmit="postAddProduct(event)">
+      <div class="form-group">
+        <label>Product URL</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Product Url"
+          name="url"
+        />
+      </div>
+      <div class="form-group">
+        <label>Title</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Title"
+          name="title"
+        />
+      </div>
+      <div class="form-group">
+        <label>Price</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Price"
+          name="price"
+        />
+      </div>
+      <div class="form-group">
+        <label>Stock</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Stock"
+          name="stock"
+        />
+      </div>
+      <div class="form-group">
+        <label>Product SKU</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Product SKU"
+          name="sku"
+          required
+        />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary" type="submit">Save Product</button>
+      </div>
+      <div class="success text-success"></div>
+      <div class="error text-error"></div>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/footer') -%>

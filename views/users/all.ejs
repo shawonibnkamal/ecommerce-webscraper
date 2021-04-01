@@ -1,0 +1,44 @@
+<%- include('../partials/header') -%>
+
+<div class="container">
+  <!-- Title -->
+
+<h1>
+    Users
+  
+    <!-- Button to add all products -->
+  
+      <button class="btn btn-dark" onclick="window.location='/products/add'">
+        <i class="fas fa-plus"></i> New User
+      </button>
+  
+  </h1>
+  
+  
+    <!-- List of Users shown -->
+    <table class="table" id="list-users">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+  
+      <!-- tbody to be filled using ajax -->
+      <tbody class="content"></tbody>
+  
+      <!-- Success message -->
+      <div class="success"></div> 
+  
+      <!-- Error message -->
+      <div class="error"></div>
+    </table>
+  </div>
+
+  <script>
+    getAllUsers();
+  </script>
+
+  <%- include('../partials/footer') -%>
+</div>

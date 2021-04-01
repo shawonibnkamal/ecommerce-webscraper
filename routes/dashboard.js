@@ -1,11 +1,12 @@
 const express = require("express");
 const router = express.Router();
 
-//GET routes starts here
+// Dashboard Homepage
 router.get("/", function (req, res) {
   res.render("./dashboard");
 });
 
+// Routes for products
 router.get("/products", function (req, res) {
   res.render("./products/all");
 });
@@ -24,6 +25,15 @@ router.get("/products/pricechanged", function (req, res) {
 
 router.get("/products/backinstock", function (req, res) {
   res.render("./products/backinstock");
+});
+
+router.get("/products/add", function (req, res) {
+  res.render("./products/add");
+});
+
+// Routes for users
+router.get("/users/", function (req, res) {
+  res.render("./users/all");
 });
 
 module.exports = router;

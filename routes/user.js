@@ -4,7 +4,15 @@ const passport = require("passport");
 
 const user_controller = require("../controllers/users.js");
 
-router.get("/users", user_controller.all);
+router.get("/", user_controller.all);
+
+// get authenticated user
+router.get(
+  "/profile",
+  passport.authenticate("jwt", { session: false }),
+  user_controller.getAuthenticatedUser
+);
+
 router.get("/:email", user_controller.getOne);
 router.put("/:email", user_controller.updateOne);
 router.delete("/:email", user_controller.deleteOne);

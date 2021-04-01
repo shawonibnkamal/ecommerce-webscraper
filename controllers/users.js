@@ -82,6 +82,21 @@ const signup = async (req, res, next) => {
   });
 };
 
+const getAuthenticatedUser = (req, res, next) => {
+  console.log(req.user);
+
+  User.findOne({ email: req.user.email }, function (err, user) {
+    if (err) {
+      res.send("Error occured");
+      throw new Error(err);
+    }
+    res.send({
+      user: user,
+      token: req.query.secret_token,
+    });
+  });
+};
+
 // Make all methods available for use.
 module.exports = {
   getOne,
@@ -90,4 +105,5 @@ module.exports = {
   all,
   login,
   signup,
+  getAuthenticatedUser,
 };

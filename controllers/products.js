@@ -174,7 +174,52 @@ const getBackInStock = (req, res) => {
 const getAll = (req, res) => {
   Product.find()
     .then((products) => {
-      res.send({ products: products });
+      // count variables
+      let total = 0;
+      let instock = 0;
+      let outofstock = 0;
+      let pricechanged = 0;
+      let backinstock = 0;
+      let updated = 0;
+      let notupdated = 0;
+
+      products.forEach((product) => {
+        total++;
+        if (product.newstock === "In stock") {
+          instock++;
+        }
+        if (product.newstock === "Out of stock") {
+          outofstock++;
+        }
+        if (product.newprice !== product.oldprice) {
+          pricechanged++;
+        }
+        if (
+          product.oldstock === "Out of stock" &&
+          product.newstock === "In stock"
+        ) {
+          backinstock++;
+        }
+        if (product.updatestatus === "Updated") {
+          updated++;
+        }
+        if (product.updatestatus === "Not Updated") {
+          notupdated++;
+        }
+      });
+
+      res.send({
+        products: products,
+        counts: {
+          total: total,
+          instock: instock,
+          outofstock: outofstock,
+          pricechanged: pricechanged,
+          backinstock: backinstock,
+          updated: updated,
+          notupdated: notupdated,
+        },
+      });
     })
     .catch((err) => {
       res.send({ message: "There was an error " + err });

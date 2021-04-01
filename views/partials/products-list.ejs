@@ -2,8 +2,16 @@
 
 <h1>
   List of Products
-  <button class="btn btn-light" onclick="updateProducts()">
-    <i class="fas fa-sync" id="sync-icon"></i> Sync
+
+  <!-- Button to add all products -->
+
+    <button class="btn btn-dark" onclick="window.location='/dashboard/products/add'">
+      <i class="fas fa-plus"></i> New Product
+    </button>
+
+  <!-- Button to sync all products -->
+  <button class="btn btn-outline-dark" onclick="updateProducts()">
+    <i class="fas fa-sync" id="sync-icon"></i> Sync All
   </button>
 </h1>
 
@@ -24,6 +32,7 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
+        <!-- List of navgiation -->
         <li class="nav-item">
           <a class="nav-link" href="/dashboard/products">All Products</a>
         </li>
@@ -46,6 +55,8 @@
           >
         </li>
       </ul>
+
+      <!-- Search form -->
       <form class="form-inline my-2 my-lg-0">
         <input
           class="form-control mr-sm-2"
@@ -63,25 +74,27 @@
   <!-- Products navbar end -->
 
   <!-- List of Products shown -->
-  <table class="table" id="list-products">
-    <thead>
-      <tr>
-        <th>SKU</th>
-        <th>Title</th>
-        <th>Price</th>
-        <th>Inventory</th>
-        <th>URL</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
 
-    <!-- tbody to be filled using ajax -->
-    <tbody class="content"></tbody>
+  <div class="table-contianer">
+    <table class="table" id="list-products">
+      <thead>
+        <tr>
+          <th>SKU</th>
+          <th>Title</th>
+          <th>Price</th>
+          <th>Inventory</th>
+          <th>URL</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
 
-    <!-- Success message -->
-    <div class="success"></div> 
+      <!-- tbody to be filled using ajax -->
+      <tbody class="content"></tbody>
+    </table>
+</div>
+  <!-- Success message -->
+  <div class="success text-success"></div> 
 
-    <!-- Error message -->
-    <div class="error"></div>
-  </table>
+  <!-- Error message -->
+  <div class="error text-danger"></div>
 </div>

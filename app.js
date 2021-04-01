@@ -40,18 +40,10 @@ app.use(express.static("public")); // Directory that serves static files
 app.use("/users", user_router);
 app.use("/products", product_router);
 
-// for testing secure routes
-// pass token in query params as secret_token=<token>
-// for testing, we are keep the products route unsecure
-app.get(
-  "/secureroute",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    res.json(req.user);
-  }
-);
-
 // Frontend routes
+app.get("/", function (req, res) {
+  res.render("./index");
+});
 app.use("/dashboard", dashboard_router);
 
 server = app.listen(port, () => {
