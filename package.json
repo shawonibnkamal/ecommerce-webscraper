@@ -4,9 +4,10 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "start": "node app.js"
   },
-  "author": "Your name here",
+  "author": "Shawon Ibn Kamal",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",

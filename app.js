@@ -11,8 +11,17 @@ mongoose.set("useNewUrlParser", true);
 mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
-mongoose.connect("mongodb://127.0.0.1:27017/web-scraper", {}, (err) => {
-  if (!err) console.log("MongoDB has connected successfully.");
+
+const localMongodb = "mongodb://127.0.0.1:27017/web-scraper";
+const atlasMongodb =
+  "mongodb+srv://WebbyScrappy:WebbyScrappy@web-scraper.iokfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+
+mongoose.connect(atlasMongodb, {}, (err) => {
+  if (!err) {
+    console.log("MongoDB has connected successfully.");
+  } else {
+    console.log(err);
+  }
 });
 mongoose.connection.on("error", (error) => {
   console.log(error);
