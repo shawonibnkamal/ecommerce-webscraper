@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const port = process.env.PORT || 3000;
 const path = require("path");
@@ -12,11 +13,9 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
-const localMongodb = "mongodb://127.0.0.1:27017/web-scraper";
-const atlasMongodb =
-  "mongodb+srv://WebbyScrappy:WebbyScrappy@web-scraper.iokfb.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const db = process.env.DB || "mongodb://127.0.0.1:27017/web-scraper";
 
-mongoose.connect(atlasMongodb, {}, (err) => {
+mongoose.connect(db, {}, (err) => {
   if (!err) {
     console.log("MongoDB has connected successfully.");
   } else {

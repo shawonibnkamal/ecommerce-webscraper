@@ -14,6 +14,7 @@ async function scrapeData(url, page) {
 
     let website;
 
+    // Check which website is added to the url
     if (url.includes("bestbuy.ca")) {
       website = "bestbuy";
     } else if (url.includes("amazon.ca")) {
